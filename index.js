@@ -25,10 +25,8 @@ app.get('/api/v1/user', async (req, res) => {
 
 app.post('/api/v1/user', async (req, res) => {
     try {
-        // Extract user data from the request body
         const { bananas, lastDayPlayed, longestStreak, name, stars, subscribed, uid } = req.body;
 
-        // Create a new user instance using the UserModel schema
         const newUser = new UserModel({
             bananas,
             lastDayPlayed,
@@ -39,10 +37,9 @@ app.post('/api/v1/user', async (req, res) => {
             uid
         });
 
-        // Save the new user to the database
         await newUser.save();
 
-        res.status(201).json(newUser); // Respond with the newly created user
+        res.status(201).json(newUser); 
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
