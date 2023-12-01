@@ -6,7 +6,8 @@ const environment = process.env.NODE_ENV || 'development';
 require('dotenv').config();
 app.locals = { title: 'Banana scoreboard API' };
 const mongoose = require('mongoose');
-const UserModel = require('./models/Users')
+const UserModel = require('./models/Users');
+const { v4: uuidv4 } = require('uuid');
 
 mongoose.connect(`mongodb+srv://sakisandrac:${process.env.NODE_DB_PASS}@banana-scoreboard.xewgjnx.mongodb.net/banana-scoreboard?retryWrites=true&w=majority`);
 
@@ -25,7 +26,7 @@ app.get('/api/v1/user', async (req, res) => {
 
 app.post('/api/v1/user', async (req, res) => {
     try {
-        const { bananas, lastDayPlayed, longestStreak, name, stars, subscribed, uid } = req.body;
+        const { bananas, lastDayPlayed, longestStreak, name, stars, subscribed } = req.body;
 
         const newUser = new UserModel({
             bananas,
@@ -34,7 +35,7 @@ app.post('/api/v1/user', async (req, res) => {
             name,
             stars,
             subscribed,
-            uid
+            uid: uuidv4()
         });
 
         await newUser.save();
